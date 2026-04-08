@@ -2,16 +2,104 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Formulário</title>
+<title>Formulário de Aporte</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-body { font-family: Arial; background: #f4f6f9; }
-.container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
-h2 { margin-top: 20px; }
-label { display: block; margin-top: 10px; }
-input, select, textarea { width: 100%; padding: 8px; }
-.hidden { display: none; }
-button { margin-top: 20px; padding: 10px; width: 100%; background: #007bff; color: white; border: none; }
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #1e293b;
+}
+
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #0f172a;
+}
+
+h2 {
+  margin-top: 30px;
+  color: #334155;
+  border-left: 4px solid #3b82f6;
+  padding-left: 10px;
+}
+
+.field {
+  margin-top: 15px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+  transition: all 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+textarea {
+  min-height: 80px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.radio-group label {
+  font-weight: normal;
+}
+
+button {
+  margin-top: 30px;
+  padding: 14px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(59,130,246,0.3);
+}
+
+.hidden {
+  display: none;
+}
 </style>
 
 </head>
@@ -23,8 +111,6 @@ button { margin-top: 20px; padding: 10px; width: 100%; background: #007bff; colo
 </div>
 
 <script>
-let formDataGlobal = {};
-
 async function init() {
   const res = await fetch('form.json');
   const data = await res.json();
@@ -39,6 +125,7 @@ async function init() {
 
     secao.campos.forEach(campo => {
       const wrapper = document.createElement('div');
+      wrapper.className = 'field';
       wrapper.id = "wrap_" + campo.id;
 
       const label = document.createElement('label');
@@ -58,16 +145,21 @@ async function init() {
         input = document.createElement('textarea');
       } else if (campo.tipo === 'radio') {
         input = document.createElement('div');
+        input.className = "radio-group";
+
         campo.opcoes.forEach(op => {
-          const r = document.createElement('input');
-          r.type = 'radio';
-          r.name = campo.id;
-          r.value = op;
+          const labelRadio = document.createElement('label');
+          const radio = document.createElement('input');
 
-          r.onchange = () => handleConditional();
+          radio.type = 'radio';
+          radio.name = campo.id;
+          radio.value = op;
+          radio.onchange = handleConditional;
 
-          input.appendChild(r);
-          input.appendChild(document.createTextNode(op));
+          labelRadio.appendChild(radio);
+          labelRadio.append(" " + op);
+
+          input.appendChild(labelRadio);
         });
       } else {
         input = document.createElement('input');
@@ -76,7 +168,7 @@ async function init() {
 
       if (campo.tipo !== 'radio') {
         input.name = campo.id;
-        input.onchange = () => handleConditional();
+        input.onchange = handleConditional;
       }
 
       if (campo.required) input.required = true;
@@ -88,7 +180,7 @@ async function init() {
   });
 
   const btn = document.createElement('button');
-  btn.innerText = "Enviar";
+  btn.innerText = "Enviar Formulário";
   form.appendChild(btn);
 
   form.onsubmit = e => {
@@ -100,7 +192,7 @@ async function init() {
     formData.forEach((v, k) => obj[k] = v);
 
     console.log(obj);
-    alert("Enviado com sucesso!");
+    alert("Formulário enviado com sucesso 🚀");
   };
 }
 
