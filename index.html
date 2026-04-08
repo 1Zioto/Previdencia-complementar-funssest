@@ -15,7 +15,6 @@
 body {
   margin: 0;
   background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: #1e293b;
 }
 
 .container {
@@ -27,19 +26,32 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 }
 
+/* 🔥 LOGO */
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo img {
+  max-width: 220px;
+}
+
+/* TITULO */
 h1 {
   text-align: center;
   margin-bottom: 30px;
   color: #0f172a;
 }
 
+/* SEÇÕES */
 h2 {
   margin-top: 30px;
   color: #334155;
-  border-left: 4px solid #3b82f6;
+  border-left: 4px solid #f97316; /* cor laranja do logo */
   padding-left: 10px;
 }
 
+/* CAMPOS */
 .field {
   margin-top: 15px;
 }
@@ -60,41 +72,39 @@ input, select, textarea {
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+  border-color: #f97316;
+  box-shadow: 0 0 0 2px rgba(249,115,22,0.2);
 }
 
 textarea {
   min-height: 80px;
 }
 
+/* RADIO */
 .radio-group {
   display: flex;
   gap: 15px;
   margin-top: 10px;
 }
 
-.radio-group label {
-  font-weight: normal;
-}
-
+/* BOTÃO */
 button {
   margin-top: 30px;
   padding: 14px;
   width: 100%;
   border: none;
   border-radius: 12px;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, #f97316, #ea580c);
   color: white;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: 0.2s;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(59,130,246,0.3);
+  box-shadow: 0 10px 20px rgba(249,115,22,0.3);
 }
 
 .hidden {
@@ -106,7 +116,14 @@ button:hover {
 <body>
 
 <div class="container">
+
+  <!-- 🔥 LOGO DA EMPRESA -->
+  <div class="logo">
+    <img src="https://www.funssest.com.br/wp-content/uploads/2022/12/FUNSSEST_Logomarca-logo-2048x873.png" alt="FUNSSEST">
+  </div>
+
   <h1 id="titulo"></h1>
+
   <form id="form"></form>
 </div>
 
