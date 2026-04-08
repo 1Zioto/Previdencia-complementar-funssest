@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formulário de Aporte</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -17,80 +18,107 @@ body {
   background: linear-gradient(135deg, #1e293b, #0f172a);
 }
 
+/* CONTAINER */
 .container {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 20px;
   background: #ffffff;
   border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-/* 🔥 LOGO */
+/* CENTRALIZA NO DESKTOP */
+@media (min-width: 768px) {
+  .container {
+    margin: 40px auto;
+    padding: 30px;
+  }
+}
+
+/* LOGO */
 .logo {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .logo img {
-  max-width: 220px;
+  max-width: 180px;
 }
 
 /* TITULO */
 h1 {
   text-align: center;
-  margin-bottom: 30px;
-  color: #0f172a;
+  margin-bottom: 20px;
+  font-size: 22px;
 }
 
 /* SEÇÕES */
 h2 {
-  margin-top: 30px;
-  color: #334155;
-  border-left: 4px solid #f97316; /* cor laranja do logo */
-  padding-left: 10px;
+  margin-top: 25px;
+  font-size: 18px;
+  border-left: 4px solid #f97316;
+  padding-left: 8px;
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+/* 2 COLUNAS NO DESKTOP */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 /* CAMPOS */
 .field {
-  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
+/* INPUTS */
 input, select, textarea {
   width: 100%;
   padding: 12px;
   margin-top: 5px;
   border-radius: 10px;
   border: 1px solid #cbd5e1;
-  outline: none;
-  transition: all 0.2s;
+  font-size: 16px;
 }
 
+/* FOCO */
 input:focus, select:focus, textarea:focus {
   border-color: #f97316;
   box-shadow: 0 0 0 2px rgba(249,115,22,0.2);
+  outline: none;
 }
 
 textarea {
-  min-height: 80px;
+  min-height: 90px;
 }
 
 /* RADIO */
 .radio-group {
   display: flex;
-  gap: 15px;
-  margin-top: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
 }
 
 /* BOTÃO */
 button {
-  margin-top: 30px;
-  padding: 14px;
+  margin-top: 25px;
+  padding: 16px;
   width: 100%;
   border: none;
   border-radius: 12px;
@@ -98,13 +126,14 @@ button {
   color: white;
   font-size: 16px;
   font-weight: bold;
-  cursor: pointer;
-  transition: 0.2s;
 }
 
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(249,115,22,0.3);
+/* BOTÃO FIXO MOBILE */
+@media (max-width: 600px) {
+  button {
+    position: sticky;
+    bottom: 10px;
+  }
 }
 
 .hidden {
@@ -117,14 +146,14 @@ button:hover {
 
 <div class="container">
 
-  <!-- 🔥 LOGO DA EMPRESA -->
   <div class="logo">
-    <img src="https://www.funssest.com.br/wp-content/uploads/2022/12/FUNSSEST_Logomarca-logo-2048x873.png" alt="FUNSSEST">
+    <img src="https://www.funssest.com.br/wp-content/uploads/2022/12/FUNSSEST_Logomarca-logo-2048x873.png">
   </div>
 
   <h1 id="titulo"></h1>
 
   <form id="form"></form>
+
 </div>
 
 <script>
@@ -139,6 +168,9 @@ async function init() {
     const h2 = document.createElement('h2');
     h2.innerText = secao.titulo;
     form.appendChild(h2);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
 
     secao.campos.forEach(campo => {
       const wrapper = document.createElement('div');
@@ -165,7 +197,7 @@ async function init() {
         input.className = "radio-group";
 
         campo.opcoes.forEach(op => {
-          const labelRadio = document.createElement('label');
+          const lbl = document.createElement('label');
           const radio = document.createElement('input');
 
           radio.type = 'radio';
@@ -173,10 +205,10 @@ async function init() {
           radio.value = op;
           radio.onchange = handleConditional;
 
-          labelRadio.appendChild(radio);
-          labelRadio.append(" " + op);
+          lbl.appendChild(radio);
+          lbl.append(" " + op);
 
-          input.appendChild(labelRadio);
+          input.appendChild(lbl);
         });
       } else {
         input = document.createElement('input');
@@ -192,8 +224,10 @@ async function init() {
 
       label.appendChild(input);
       wrapper.appendChild(label);
-      form.appendChild(wrapper);
+      grid.appendChild(wrapper);
     });
+
+    form.appendChild(grid);
   });
 
   const btn = document.createElement('button');
@@ -209,16 +243,16 @@ async function init() {
     formData.forEach((v, k) => obj[k] = v);
 
     console.log(obj);
-    alert("Formulário enviado com sucesso 🚀");
+    alert("Enviado com sucesso 🚀");
   };
 }
 
 function handleConditional() {
   const coaf = document.querySelector('input[name="coaf"]:checked')?.value;
 
-  document.getElementById('wrap_justificativa').classList.toggle('hidden', coaf !== 'NÃO');
-  document.getElementById('wrap_data_coaf').classList.toggle('hidden', coaf !== 'SIM');
-  document.getElementById('wrap_responsavel').classList.toggle('hidden', coaf !== 'SIM');
+  document.getElementById('wrap_justificativa')?.classList.toggle('hidden', coaf !== 'NÃO');
+  document.getElementById('wrap_data_coaf')?.classList.toggle('hidden', coaf !== 'SIM');
+  document.getElementById('wrap_responsavel')?.classList.toggle('hidden', coaf !== 'SIM');
 }
 
 init();
