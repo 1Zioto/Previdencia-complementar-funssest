@@ -1,0 +1,129 @@
+{
+  "titulo": "Termo de Aporte Esporádico",
+  "secoes": [
+    {
+      "titulo": "Dados do Participante",
+      "campos": [
+        { "id": "nome", "label": "Nome do Titular", "tipo": "text", "required": true },
+        { "id": "matricula", "label": "Matrícula", "tipo": "number", "required": true },
+        { "id": "cpf", "label": "CPF", "tipo": "text", "required": true, "placeholder": "000.000.000-00" },
+        { "id": "nascimento", "label": "Data de Nascimento", "tipo": "date", "required": true },
+        { "id": "email", "label": "E-mail", "tipo": "email", "required": true },
+        { "id": "telefone", "label": "Telefone", "tipo": "text", "required": false, "placeholder": "(00) 00000-0000" },
+        {
+          "id": "patrocinadora",
+          "label": "Patrocinadora",
+          "tipo": "select",
+          "required": true,
+          "opcoes": ["ArcelorMittal Brasil", "ArcelorMittal Pecém S.A", "Outras"]
+        },
+        {
+          "id": "plano",
+          "label": "Tipo de Plano",
+          "tipo": "select",
+          "required": true,
+          "opcoes": ["Plano de Benefícios IV", "Plano de Benefícios V", "Outros"]
+        },
+        {
+          "id": "participante",
+          "label": "Tipo de Participante",
+          "tipo": "select",
+          "required": true,
+          "opcoes": ["Ativo", "Assistido", "BPD", "Outros"]
+        },
+        { "id": "admissao", "label": "Data de Admissão", "tipo": "date", "required": true }
+      ]
+    },
+    {
+      "titulo": "Dados do Aporte",
+      "campos": [
+        { "id": "valor", "label": "Contribuição Esporádica (R$)", "tipo": "number", "required": true },
+        {
+          "id": "forma",
+          "label": "Forma de Recolhimento",
+          "tipo": "select",
+          "required": true,
+          "opcoes": ["Depósito em Conta Corrente", "TED/DOC", "PIX", "Outros"]
+        },
+        { "id": "data_pagamento", "label": "Data do Pagamento", "tipo": "date", "required": true },
+        {
+          "id": "perfil",
+          "label": "Perfil de Investimento",
+          "tipo": "select",
+          "required": false,
+          "opcoes": ["Moderado", "Super Conservador", "Conservador", "Arrojado"]
+        },
+        {
+          "id": "conta_destino",
+          "label": "Conta de Destino",
+          "tipo": "select",
+          "required": true,
+          "opcoes": ["Contribuição Esporádica Participante", "Saldo de Conta Assistido", "Outros"]
+        }
+      ]
+    },
+    {
+      "titulo": "Compliance",
+      "campos": [
+        {
+          "id": "pep",
+          "label": "Classificação PEP",
+          "tipo": "select",
+          "required": true,
+          "opcoes": ["Não é PEP", "É PEP", "Relacionado a PEP"]
+        },
+        {
+          "id": "origem",
+          "label": "Origem do Valor",
+          "tipo": "textarea",
+          "required": true
+        },
+        {
+          "id": "revisao",
+          "label": "Revisão / Documento",
+          "tipo": "text",
+          "required": false
+        },
+        {
+          "id": "comprovante",
+          "label": "Anexar Comprovante",
+          "tipo": "file",
+          "required": true
+        }
+      ]
+    },
+    {
+      "titulo": "Controle COAF",
+      "campos": [
+        {
+          "id": "coaf",
+          "label": "Registrado no COAF?",
+          "tipo": "radio",
+          "required": true,
+          "opcoes": ["SIM", "NÃO"]
+        },
+        {
+          "id": "justificativa",
+          "label": "Justificativa",
+          "tipo": "textarea",
+          "required": false,
+          "condicional": { "campo": "coaf", "valor": "NÃO" }
+        },
+        {
+          "id": "data_coaf",
+          "label": "Data do Registro COAF",
+          "tipo": "date",
+          "required": false,
+          "condicional": { "campo": "coaf", "valor": "SIM" }
+        },
+        {
+          "id": "responsavel",
+          "label": "Responsável",
+          "tipo": "text",
+          "required": false,
+          "condicional": { "campo": "coaf", "valor": "SIM" }
+        }
+      ]
+    }
+  ]
+}

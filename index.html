@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Formulário</title>
+
+<style>
+body { font-family: Arial; background: #f4f6f9; }
+.container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+h2 { margin-top: 20px; }
+label { display: block; margin-top: 10px; }
+input, select, textarea { width: 100%; padding: 8px; }
+.hidden { display: none; }
+button { margin-top: 20px; padding: 10px; width: 100%; background: #007bff; color: white; border: none; }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1 id="titulo"></h1>
+  <form id="form"></form>
+</div>
+
+<script>
+let formDataGlobal = {};
+
+async function init() {
+  const res = await fetch('form.json');
+  const data = await res.json();
+
+  document.getElementById('titulo').innerText = data.titulo;
+  const form = document.getElementById('form');
+
+  data.secoes.forEach(secao => {
+    const h2 = document.createElement('h2');
+    h2.innerText = secao.titulo;
+    form.appendChild(h2);
+
+    secao.campos.forEach(campo => {
+      const wrapper = document.createElement('div');
+      wrapper.id = "wrap_" + campo.id;
+
+      const label = document.createElement('label');
+      label.innerText = campo.label;
+
+      let input;
+
+      if (campo.tipo === 'select') {
+        input = document.createElement('select');
+        campo.opcoes.forEach(op => {
+          const option = document.createElement('option');
+          option.value = op;
+          option.text = op;
+          input.appendChild(option);
+        });
+      } else if (campo.tipo === 'textarea') {
+        input = document.createElement('textarea');
+      } else if (campo.tipo === 'radio') {
+        input = document.createElement('div');
+        campo.opcoes.forEach(op => {
+          const r = document.createElement('input');
+          r.type = 'radio';
+          r.name = campo.id;
+          r.value = op;
+
+          r.onchange = () => handleConditional();
+
+          input.appendChild(r);
+          input.appendChild(document.createTextNode(op));
+        });
+      } else {
+        input = document.createElement('input');
+        input.type = campo.tipo;
+      }
+
+      if (campo.tipo !== 'radio') {
+        input.name = campo.id;
+        input.onchange = () => handleConditional();
+      }
+
+      if (campo.required) input.required = true;
+
+      label.appendChild(input);
+      wrapper.appendChild(label);
+      form.appendChild(wrapper);
+    });
+  });
+
+  const btn = document.createElement('button');
+  btn.innerText = "Enviar";
+  form.appendChild(btn);
+
+  form.onsubmit = e => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const obj = {};
+
+    formData.forEach((v, k) => obj[k] = v);
+
+    console.log(obj);
+    alert("Enviado com sucesso!");
+  };
+}
+
+function handleConditional() {
+  const coaf = document.querySelector('input[name="coaf"]:checked')?.value;
+
+  document.getElementById('wrap_justificativa').classList.toggle('hidden', coaf !== 'NÃO');
+  document.getElementById('wrap_data_coaf').classList.toggle('hidden', coaf !== 'SIM');
+  document.getElementById('wrap_responsavel').classList.toggle('hidden', coaf !== 'SIM');
+}
+
+init();
+</script>
+
+</body>
+</html>
